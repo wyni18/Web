@@ -1,0 +1,185 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="ajax.js">
+</script>
+<title>Homework 8</title>
+</head>
+<body>
+<div id="fb-root"></div>
+<script>
+window.fbAsyncInit = function() {
+	// init the FB JS SDK
+    FB.init({
+        appId: '558891227476011',
+        status: true,
+        cookie: true,
+        xfbml: true,
+		//channelURL: 'http://cs-server.usc.edu:14295/channel.html',	
+    });
+
+	// Load the SDK asynchronously
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+   
+    FB.getLoginStatus(function(response) {
+	if (response.status === 'connected') {
+	// connected
+	} else if (response.status === 'not_authorized') {
+	// not_authorized
+	} else {
+	    // not_logged_in
+	}
+        if (response.authResponse) {
+            var access_token = response.authResponse.accessToken;
+        }
+    });
+
+};
+
+(function(d) {
+    var js, id = 'facebook-jssdk';
+    if (d.getElementById(id)) {
+        return;
+    }
+    js = d.createElement('script');
+    js.id = id;
+    js.async = true;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    d.getElementsByTagName('head')[0].appendChild(js);
+}(document));
+
+function login1(cover, name, year, genre, detail) {
+    FB.login(function(response) {
+        if (response.authResponse) {
+            	// connected
+		//post the details to timeline
+		var capt = "I like ";
+		capt += name;
+		capt += " who is active since " + year;
+		var descrip = "Genre of music is: " + genre;
+		FB.ui({
+			method: 'feed',
+		    name: name,
+		    link: detail,
+		    picture: cover,
+		    caption: capt,
+		    description: descrip,
+		    properties:{"Look at details": {text: 'here', href: detail}}
+		  },
+		  function(response) {
+		    if (response && response.post_id) {
+			alert('Post was published.');
+		    } 
+			else {
+			alert('Post was not published.');
+		    }
+		  });
+
+        } else {
+            // cancelled
+        }
+    });
+}
+
+function login2(cover, name, artist, year, genre, detail) {
+    FB.login(function(response) {
+        if (response.authResponse) {
+            	// connected
+		//post the details to timeline
+		var capt = "I like ";
+		capt += name;
+		capt += " released in " + year;
+		var descrip = "Artist: " + artist + " Genre: "+ genre;
+		FB.ui(
+		{
+			method: 'feed',
+		    name: name,
+		    link: detail,
+		    picture: cover,
+		    caption: capt,
+		    description: descrip,
+		    properties:{"Look at details": {text: 'here', href: detail}}
+		  },
+		  function(response) {
+		    if (response && response.post_id) {
+			alert('Post was published.');
+		    } 
+			else {
+			alert('Post was not published.');
+		    }
+		  }
+		);
+
+        } else {
+            // cancelled
+        }
+    });
+}
+
+function login3(name, composer, performer, detail) {
+    FB.login(function(response) {
+        if (response.authResponse) {
+            	// connected
+		//post the details to timeline
+		var capt = "I like ";
+		capt += name;
+		capt += " composed by " + composer;
+		var descrip = "Performer: " + performer;
+		FB.ui(
+		{
+			method: 'feed',
+		    name: name,
+		    link: detail,
+		    picture: "http://www-scf.usc.edu/~yanniwan/headphone.png",
+		    caption: capt,
+		    description: descrip,
+		    properties:{"Look at details": {text: 'here', href: detail}}
+		  },
+		  function(response) {
+		    if (response && response.post_id) {
+			alert('Post was published.');
+		    } 
+			else {
+			alert('Post was not published.');
+		    }
+		  }
+		);
+
+        } else {
+            // cancelled
+        }
+    });
+}
+</script>
+
+<center> 
+<h1>Discography Search</h1>
+<table><tr>
+	<td>Search: </td>
+	<td><input type="text" name="title" id="title" value=""></td>
+	</tr>
+	<tr>
+	<td>Type: </td>
+	<td>
+		<select name="type" id="type">
+			<option selected=selected value="artists">Artists</option>
+			<option value="albums">Albums</option>
+			<option value="songs">Songs</option>
+			</select>
+		</select>
+	</td>
+	</tr>
+</table>
+<button type="button" onclick="ajax()" >Search</button>
+<div id="table"></div>
+</center>
+<noscript>
+</body>
+</html>
+
